@@ -170,3 +170,12 @@ window.onload = () => {
   updateProgress();
   if (typeof renderWeightChart === 'function') renderWeightChart();
 };
+
+// Sync bodyweight into the top‐bar whenever index.html loads
+window.addEventListener('DOMContentLoaded', () => {
+  const bw = localStorage.getItem('bodyweight');
+  if (bw) {
+    const top = document.getElementById('bodyweightDisplayTop');
+    if (top) top.textContent = `Bodyweight: ${bw} kg`;
+  }
+});
