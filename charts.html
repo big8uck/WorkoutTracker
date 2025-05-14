@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Chart.js for charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Essential meta tags -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Progress Charts</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- PWA Icons (all under /icons) -->
+  <link rel="icon" type="image/png"   sizes="96x96"   href="/icons/favicon-96x96.png" />
+  <link rel="icon" type="image/svg+xml"            href="/icons/favicon.svg" />
+  <link rel="shortcut icon"                        href="/icons/favicon.ico" />
+  <link rel="apple-touch-icon"    sizes="180x180"  href="/icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png"   sizes="192x192"  href="/icons/icon-192.png" />
+  <link rel="icon" type="image/png"   sizes="512x512"  href="/icons/icon-512.png" />
+
+  <!-- Web App Manifest -->
+  <link rel="manifest" href="/manifest.json" />
+  <meta name="theme-color" content="#00ffcc" />
+
+  <!-- iOS fullscreen / status bar styling -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Workout Tracker" />
+</head>
+<body>
+
+  <!-- 🌐 Sidebar Navigation -->
+  <div id="sidebar" class="sidebar">
+    <h2>📋 Menu</h2>
+    <a href="index.html">🏋️ Workout</a>
+    <a href="charts.html">📊 Progress Charts</a>
+  </div>
+  <button id="sidebarToggle" onclick="toggleSidebar()">☰</button>
+
+  <!-- 🧹 Clear All Data -->
+  <button id="clearDataBtn" class="danger-btn">🧹 Clear All Data</button>
+
+  <!-- 📊 Main Content -->
+  <div class="container">
+    <h1>📊 Your Progress</h1>
+
+    <!-- Bodyweight Chart -->
+    <div class="chart-section">
+      <h2>Bodyweight Over Time</h2>
+      <canvas id="weightChart"></canvas>
+    </div>
+
+    <!-- Exercise Chart Dropdown -->
+    <div class="chart-section">
+      <h2>Track Weight Per Exercise</h2>
+      <select id="exerciseSelect">
+        <option value="">-- Select an exercise --</option>
+      </select>
+      <canvas id="exerciseChart"></canvas>
+    </div>
+
+    <!-- Bodyweight Input Tracker -->
+    <div class="bodyweight-tracker">
+      <h2>Track Your Bodyweight</h2>
+      <input type="number" placeholder="Enter your bodyweight (kg)" id="bodyweightInput" />
+      <button onclick="updateBodyweight()">Update</button>
+      <p id="bodyweightDisplay">Current bodyweight: —</p>
+    </div>
+  </div>
+
+  <!-- Your charts logic -->
+  <script src="charts.js"></script>
+
+  <!-- Register service worker for offline support -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js')
+        .catch(err => console.error('Service Worker registration failed:', err));
+    }
+  </script>
+</body>
+</html>

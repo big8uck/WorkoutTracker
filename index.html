@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Chart.js for in-page charts -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- Essential meta tags -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Workout Plan</title>
+
+  <!-- Your main stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- PWA icons (all stored under /icons) -->
+  <link rel="icon" type="image/png"   sizes="96x96"   href="/icons/favicon-96x96.png" />
+  <link rel="icon" type="image/svg+xml"            href="/icons/favicon.svg" />
+  <link rel="shortcut icon"                        href="/icons/favicon.ico" />
+  <link rel="apple-touch-icon"    sizes="180x180"  href="/icons/apple-touch-icon.png" />
+  <link rel="icon" type="image/png"   sizes="192x192"  href="/icons/icon-192.png" />
+  <link rel="icon" type="image/png"   sizes="512x512"  href="/icons/icon-512.png" />
+
+  <!-- PWA manifest -->
+  <link rel="manifest" href="/manifest.json" />
+
+  <!-- Theme colors -->
+  <meta name="theme-color" content="#00ffcc" />
+
+  <!-- iOS Safari fullscreen -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Workout Tracker" />
+</head>
+<body>
+
+  <!-- 🌐 Sidebar Navigation -->
+  <div id="sidebar" class="sidebar">
+    <h2>📋 Menu</h2>
+    <a href="index.html">🏋️ Workout</a>
+    <a href="charts.html">📊 Progress Charts</a>
+  </div>
+  <button id="sidebarToggle" onclick="toggleSidebar()">☰</button>
+
+  <!-- 🌙 Dark Mode + Scroll Button -->
+  <button id="themeToggle" onclick="toggleTheme()">🌙</button>
+  <button id="scrollTopBtn">↑</button>
+
+  <div class="top-bar">
+    <div id="bodyweightDisplayTop">Bodyweight: —</div>
+    <button id="editToggleBtn" onclick="toggleEdit()">✏️ Edit</button>
+  </div>
+
+  <!-- ✨ Ambient Blobs -->
+  <div class="ambient-bg">
+    <div class="blob blob1"></div>
+    <div class="blob blob2"></div>
+    <div class="blob blob3"></div>
+  </div>
+
+  <!-- 💪 Workout Content -->
+  <div class="container">
+    <h1>Workout Split</h1>
+
+    <progress id="dayProgress" max="20" value="0"></progress>
+
+    <!-- Day 1 -->
+    <div class="workout-day">
+      <h2 onclick="toggleDay(this.parentElement)">Day 1</h2>
+      <ul>
+        <li>
+          <input type="checkbox" onchange="updateProgress()" />
+          <span class="exercise-name" contenteditable="false">Incline Press – 4x4-6</span>
+          <input type="number" class="weight-input hidden" placeholder="Weight (kg)"
+                 oninput="debounceUpdateWeight(this)" />
+          <div class="weight-display">Current weight: <span class="weight-value">—</span></div>
+        </li>
+        <li>
+          <input type="checkbox" onchange="updateProgress()" />
+          <span class="exercise-name" contenteditable="false">Dumbbell Lateral Raise – 3x10-15</span>
+          <input type="number" class="weight-input hidden" placeholder="Weight (kg)"
+                 oninput="debounceUpdateWeight(this)" />
+          <div class="weight-display">Current weight: <span class="weight-value">—</span></div>
+        </li>
+        <li>
+          <input type="checkbox" onchange="updateProgress()" />
+          <span class="exercise-name" contenteditable="false">Weighted Dips – 4x4-6</span>
+          <input type="number" class="weight-input hidden" placeholder="Weight (kg)"
+                 oninput="debounceUpdateWeight(this)" />
+          <div class="weight-display">Current weight: <span class="weight-value">—</span></div>
+        </li>
+        <li>
+          <input type="checkbox" onchange="updateProgress()" />
+          <span class="exercise-name" contenteditable="false">SkullCrushers – 3x8-10</span>
+          <input type="number" class="weight-input hidden" placeholder="Weight (kg)"
+                 oninput="debounceUpdateWeight(this)" />
+          <div class="weight-display">Current weight: <span class="weight-value">—</span></div>
+        </li>
+        <li>
+          <input type="checkbox" onchange="updateProgress()" />
+          <span class="exercise-name" contenteditable="false">Tricep Extensions – 3x8-10</span>
+          <input type="number" class="weight-input hidden" placeholder="Weight (kg)"
+                 oninput="debounceUpdateWeight(this)" />
+          <div class="weight-display">Current weight: <span class="weight-value">—</span></div>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Day 2 -->
+    <div class="workout-day">
+      <h2 onclick="toggleDay(this.parentElement)">Day 2</h2>
+      <ul>
+        <li>
+          <input type="checkbox" onchange="updateProgress()" />
+          <span class="exercise-name" contenteditable="false">Chest-Supported Dumbbell Rows – 3x4-6</span>
+          <input type="number" class="weight-input hidden" placeholder="Weight (kg)"
+                 oninput="debounceUpdateWeight(this)" />
+          <div class="weight-display">Current weight: <span class="weight-value">—</span></div>
+        </li>
+        <!-- …other Day 2 items… -->
+      </ul>
+    </div>
+
+    <!-- Day 3 -->
+    <div class="workout-day">
+      <h2 onclick="toggleDay(this.parentElement)">Day 3</h2>
+      <ul>
+        <!-- …Day 3 items… -->
+      </ul>
+    </div>
+
+    <!-- Day 4 -->
+    <div class="workout-day">
+      <h2 onclick="toggleDay(this.parentElement)">Day 4</h2>
+      <ul>
+        <!-- …Day 4 items… -->
+      </ul>
+    </div>
+  </div>
+
+  <!-- Your main script -->
+  <script src="script.js"></script>
+
+  <!-- Register Service Worker for offline support -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js')
+        .catch(err => console.error('Service Worker registration failed:', err));
+    }
+  </script>
+</body>
+</html>
